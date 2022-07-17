@@ -1,0 +1,12 @@
+passo 1 - criar projeto
+djano-admin startproject NOME . 
+
+Passo 2 - criar env
+python -m venv venv
+
+Pass 3 - Criar requirements.txt
+pip freeze > requirements.txt
+OBS: para instalar o pip freeze execute: pip install -r requirement.txt
+
+
+
