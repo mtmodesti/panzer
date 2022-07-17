@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import os
 
 from pathlib import Path
+from datetime import timedelta
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-eugi36fi(%zw6sc%r*c%=_(stui+29uil)qw1*pa0%8*--ba2y'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -75,10 +79,31 @@ WSGI_APPLICATION = 'Panzer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE':   'django.db.backends.postgresql',
+         'NAME':     os.getenv('POSTGRES_DB'),
+         'USER':     os.getenv('POSTGRES_USER'),
+         "PASSWORD": '1234',
+         "HOST":     "127.0.0.1",
+         "PORT":     5432
     }
 }
+
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+
+if DATABASE_URL:
+    db_from_env = dj_database_url.config(
+        default=DATABASE_URL,
+        conn_max_age=500,
+        ssl_require=True
+    )
+    DATABASES['default'].update(db_from_env)
+
+DATE_INPUT_FORMATS = ['%d-%m-%Y %H:%M']
+
+
+
 
 
 # Password validation
@@ -105,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
