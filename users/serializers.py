@@ -1,5 +1,6 @@
 from adresses.serializers import AddressSerializer
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 
 from .models import User
 
@@ -14,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             "password": {"write_only": True},
-            # "cpf": {"write_only": True}
+            "cpf": {"write_only": True}
         }
 
 
@@ -23,11 +24,15 @@ class UserSerializer(serializers.ModelSerializer):
         fixedFields = ['cpf']
         for key, value in validated_data.items():
             if key not in fixedFields:
-                setattr(instance, key, value)
-                instance.save()
+                if key == 'password':
+                    instance.set_password(value)
+                else:
+                    setattr(instance, key, value)
+                # setattr(instance, key, value)
+                # instance.save()
 
         return instance
-        ...
+        
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
