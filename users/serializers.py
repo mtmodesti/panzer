@@ -1,15 +1,22 @@
-from attr import fields
-from django.utils import timezone
+from adresses.serializers import AddressSerializer
 from rest_framework import serializers
-from django.forms import ValidationError
 
 from .models import User
 
-class UserSerializer(serializers.Serializer):
+
+class UserSerializer(serializers.ModelSerializer):
+    adresses = AddressSerializer(many=True, read_only=True)
+
     class Meta:
         model = User
-        read_only_fields = ['id']
-        fields = '__all__'
+        fields = ['id', 'name', 'cpf', 'email', 'phone', 'password', 'current_banking', 'agency', 'created_at', 'updated_at', 'adresses']
+        read_only_fields = ['id', 'current_banking', 'created_at', 'updated_at']
+
+        extra_kwargs = {
+            "password": {"write_only": True},
+            # "cpf": {"write_only": True}
+        }
+
 
     def create(self, validated_data):
-        return User.objects.create(**validated_data)
+        return User.objects.create_user(**validated_data)
