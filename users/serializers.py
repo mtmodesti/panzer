@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
                 else:
                     setattr(instance, key, value)
                 # setattr(instance, key, value)
-                # instance.save()
+        instance.save()
 
         return instance
         
