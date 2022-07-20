@@ -1,12 +1,19 @@
+from adresses.models import Address
 from adresses.serializers import AddressSerializer
 from rest_framework import serializers
-from django.contrib.auth.hashers import make_password
 
 from .models import User
 
 
+class UserAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ["id", "cep", "street", "number", "district", "complement", "state"]
+        read_only_fields = ["id"]
+
+
 class UserSerializer(serializers.ModelSerializer):
-    adresses = AddressSerializer(many=True, read_only=True)
+    adresses = UserAddressSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -28,7 +35,6 @@ class UserSerializer(serializers.ModelSerializer):
                     instance.set_password(value)
                 else:
                     setattr(instance, key, value)
-                # setattr(instance, key, value)
         instance.save()
 
         return instance

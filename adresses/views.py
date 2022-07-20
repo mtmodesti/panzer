@@ -1,23 +1,25 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import Address
-from adresses.serializers import AddressSerializer
-from users.models import User
-from users.serializers import UserSerializer
 
+from adresses.serializers import AddressReadSerializer, AddressSerializer
+
+from .models import Address
 
 # class RetrieveUpdateDestroyAddressUserView(generics.ListAPIView):
 #      queryset = Address.objects.all()
 #      serializer_class = AddressSerializer
 #      lookup_url_kwarg = "user_id"
 
-class ListAllAddressView(generics.ListAPIView):
+class CreateAddressView(generics.CreateAPIView):
      queryset = Address.objects.all()
      serializer_class = AddressSerializer
 
-class CreatAddressView(generics.CreateAPIView):
+class ListAllAdressesView(generics.ListAPIView):
+     queryset = Address.objects.all()
+     serializer_class = AddressReadSerializer
+
+class RetrieveUpdateDestroyAddressView(generics.RetrieveUpdateDestroyAPIView):
      queryset = Address.objects.all()
      serializer_class = AddressSerializer
 
-
-    
+     lookup_url_kwarg = "address_id"

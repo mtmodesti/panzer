@@ -14,5 +14,3 @@ class Address(models.Model):
     complement = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=100)
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, related_name="adresses", null=True)
-    
-

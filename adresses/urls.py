@@ -4,6 +4,7 @@ from rest_framework_simplejwt import views as authview
 from . import views
 
 urlpatterns = {
-  # path("<user_id>/", views.RetrieveUpdateDestroyAddressUserView.as_view()),
-   path("new/", views.ListAllAddressView.as_view())
+  path("new/", views.CreateAddressView.as_view()),
+  path("", views.ListAllAdressesView.as_view()),
+  path("<address_id>/", views.RetrieveUpdateDestroyAddressView.as_view()),
 }
