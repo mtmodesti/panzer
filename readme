@@ -1,19 +1,624 @@
-passo 1 - criar projeto
-djano-admin startproject NOME . 
-
-Passo 2 - criar env
-python -m venv venv
-
-Pass 3 - Criar requirements.txt
-pip freeze > requirements.txt
-OBS: para instalar o pip freeze execute: pip install -r requirements.txt
-
-Recado:
-Instalei o dot env mas não consigo carregar ele no settings.py
-
-
-
-
-
-
-
+openapi: 3.0.3
+info:
+  title: Panzer - API
+  version: 1.0.0
+  description: Api da panzer
+paths:
+  /address/:
+    get:
+      operationId: address_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - address
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAddressReadList'
+          description: ''
+  /address/{address_id}/:
+    get:
+      operationId: address_retrieve
+      parameters:
+      - in: path
+        name: address_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this address.
+        required: true
+      tags:
+      - address
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+          description: ''
+    put:
+      operationId: address_update
+      parameters:
+      - in: path
+        name: address_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this address.
+        required: true
+      tags:
+      - address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Address'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Address'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+          description: ''
+    patch:
+      operationId: address_partial_update
+      parameters:
+      - in: path
+        name: address_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this address.
+        required: true
+      tags:
+      - address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAddress'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAddress'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAddress'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+          description: ''
+    delete:
+      operationId: address_destroy
+      parameters:
+      - in: path
+        name: address_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this address.
+        required: true
+      tags:
+      - address
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /address/new/:
+    post:
+      operationId: address_new_create
+      tags:
+      - address
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Address'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Address'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+          description: ''
+  /users/:
+    get:
+      operationId: users_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserList'
+          description: ''
+  /users/{user_id}/:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_update
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: users_partial_update
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: users_destroy
+      parameters:
+      - in: path
+        name: user_id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/login/:
+    post:
+      operationId: users_login_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /users/register/:
+    post:
+      operationId: users_register_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        cep:
+          type: string
+          maxLength: 8
+        street:
+          type: string
+          maxLength: 100
+        number:
+          type: string
+          maxLength: 10
+        district:
+          type: string
+          maxLength: 100
+        complement:
+          type: string
+          nullable: true
+          maxLength: 100
+        state:
+          type: string
+          maxLength: 100
+        user:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+      - cep
+      - district
+      - id
+      - number
+      - state
+      - street
+    AddressRead:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        cep:
+          type: string
+          maxLength: 8
+        street:
+          type: string
+          maxLength: 100
+        number:
+          type: string
+          maxLength: 10
+        district:
+          type: string
+          maxLength: 100
+        complement:
+          type: string
+          nullable: true
+          maxLength: 100
+        state:
+          type: string
+          maxLength: 100
+        user:
+          allOf:
+          - $ref: '#/components/schemas/UserAddress'
+          readOnly: true
+      required:
+      - cep
+      - district
+      - id
+      - number
+      - state
+      - street
+      - user
+    PaginatedAddressReadList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressRead'
+    PaginatedUserList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    PatchedAddress:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        cep:
+          type: string
+          maxLength: 8
+        street:
+          type: string
+          maxLength: 100
+        number:
+          type: string
+          maxLength: 10
+        district:
+          type: string
+          maxLength: 100
+        complement:
+          type: string
+          nullable: true
+          maxLength: 100
+        state:
+          type: string
+          maxLength: 100
+        user:
+          type: string
+          format: uuid
+          nullable: true
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        cpf:
+          type: string
+          writeOnly: true
+          maxLength: 11
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        phone:
+          type: string
+          maxLength: 30
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 100
+        current_banking:
+          type: number
+          format: double
+          readOnly: true
+        agency:
+          type: string
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        adresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAddress'
+          readOnly: true
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - email
+      - password
+      - refresh
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        cpf:
+          type: string
+          writeOnly: true
+          maxLength: 11
+        email:
+          type: string
+          format: email
+          maxLength: 255
+        phone:
+          type: string
+          maxLength: 30
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 100
+        current_banking:
+          type: number
+          format: double
+          readOnly: true
+        agency:
+          type: string
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        adresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAddress'
+          readOnly: true
+      required:
+      - adresses
+      - agency
+      - cpf
+      - created_at
+      - current_banking
+      - email
+      - id
+      - name
+      - password
+      - phone
+      - updated_at
+    UserAddress:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - name
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

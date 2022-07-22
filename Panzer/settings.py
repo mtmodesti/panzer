@@ -164,15 +164,6 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20,
 }
 
-
-SPECTACULAR_SETTINGS = {
-    'TITLE':'Clinica Médica',
-    'DESCRIPTION':'Api da clinica médica',
-    'VERSION':'1.0.0',
-    'SERVE_INCLUDE_SCHEMA':False,
-}
-
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=2),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
